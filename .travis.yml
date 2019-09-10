@@ -57,7 +57,7 @@ matrix:
         api_key: ${GITHUB_TOKEN}
         file_glob: true
         file:
-          - .ios/Outputs/*
+          - .ios/Outputs/**/*
         skip_cleanup: true
         on:
           tags: true
