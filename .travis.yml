@@ -32,7 +32,14 @@ matrix:
       script:
         - yes | flutter doctor --android-licenses
         - flutter doctor && flutter -v build apk
-
+      deploy:
+        provider: releases
+        api_key: ${GITHUB_TOKEN}
+        file:
+          - .android/Flutter/build/outputs/aar/flutter-release.aar
+        skip_cleanup: true
+        on:
+          tags: true
     - os: osx
       language: objective-c
       osx_image: xcode10.2
@@ -40,6 +47,19 @@ matrix:
         - pod repo update
       script:
         - flutter doctor && flutter -v build ios --no-codesign
+      before_deploy:
+        - mkdir .ios/Outputs && mkdir .ios/Outputs/FlutterEngine
+        - cp FlutterEngine.podspec .ios/Outputs/
+        - cp -r .ios/Flutter/App.framework/ .ios/Outputs/FlutterEngine/App.framework/
+        - cp -r .ios/Flutter/engine/Flutter.framework/ .ios/Outputs/FlutterEngine/Flutter.framework/
+      deploy:
+        provider: releases
+        api_key: ${GITHUB_TOKEN}
+        file:
+          - .ios/Outpus/*
+        skip_cleanup: true
+        on:
+          tags: true
 before_install:
     - git clone -b 'v1.5.4-hotfix.2' --depth 1 https://github.com/flutter/flutter.git
     - export PATH="$PATH:`pwd`/flutter/bin"
