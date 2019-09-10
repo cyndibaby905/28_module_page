@@ -56,7 +56,7 @@ matrix:
         provider: releases
         api_key: ${GITHUB_TOKEN}
         file:
-          - .ios/Outpus/*
+          - .ios/Outputs/*
         skip_cleanup: true
         on:
           tags: true
