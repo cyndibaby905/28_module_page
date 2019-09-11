@@ -52,12 +52,12 @@ matrix:
         - cp FlutterEngine.podspec .ios/Outputs/
         - cp -r .ios/Flutter/App.framework/ .ios/Outputs/FlutterEngine/App.framework/
         - cp -r .ios/Flutter/engine/Flutter.framework/ .ios/Outputs/FlutterEngine/Flutter.framework/
+        - pushd .ios/Outputs && zip -r FlutterEngine.zip  ./ && popd
       deploy:
         provider: releases
         api_key: ${GITHUB_TOKEN}
-        file_glob: true
         file:
-          - .ios/Outputs/**/*
+          - .ios/Outputs/FlutterEngine.zip
         skip_cleanup: true
         on:
           tags: true
